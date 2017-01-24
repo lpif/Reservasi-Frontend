@@ -1,0 +1,51 @@
+body {
+    font-family: Roboto, sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    height: 100%;
+}
+
+#date-picker {
+    text-align: center;
+}
+
+#time-picker {
+    text-align: center;
+}
+
+.container-stage-one-animate-appear {
+    opacity: 0.01;
+}
+
+.container-stage-one-animate-appear.container-stage-one-animate-appear-active {
+    opacity: 1;
+    transition: opacity .5s ease-in;
+}
+
+.container-animate-appear {
+    opacity: 0.01;
+}
+
+.container-animate-appear.container-animate-appear-active {
+    opacity: 1;
+    transition: opacity .5s ease-in;
+}
+
+.container-animate-leave {
+    opacity: 1;
+}
+
+.container-animate-leave.container-animate-leave-active {
+    opacity: 0.01;
+    transition: opacity .9s ease-in;
+}
+
+.list-animate-enter {
+    opacity: 0.01;
+}
+
+.list-animate-enter.list-animate-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+}
