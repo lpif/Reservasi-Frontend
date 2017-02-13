@@ -17,7 +17,7 @@ import Dialog from 'material-ui/Dialog';
 import {cyan500} from 'material-ui/styles/colors';
 import ReservationStage3 from './ReservationStage3';
 import ManageDate from '../funtions/ManageDate';
-import config from '../../config';
+import config from '../../appConfig';
 
 export default class ReservationStage2 extends React.Component {
     constructor(props) {
@@ -180,29 +180,45 @@ export default class ReservationStage2 extends React.Component {
         this.setState({
             repeatType: value
         });
+
         if (value === 2) {
+            let tmp = false;
             if (this.state.repeatCount > config.MAX_REPEAT.COUNT_WEEK) {
                 this.setState({
                     repeatCount: config.MAX_REPEAT.COUNT_WEEK
-                });
+                }, () => this.checkConflict());
+                tmp = true;
             }
             if (this.state.repeatOccurrences > config.MAX_REPEAT.OCCURRENCES_WEEK) {
                 this.setState({
                     repeatOccurrences: config.MAX_REPEAT.OCCURRENCES_WEEK
-                });
+                }, () => this.checkConflict());
+                tmp = true;
+            }
+            if (tmp === false) {
+                this.checkConflict();
             }
         }
         else if (value === 3) {
+            let tmp = false;
             if (this.state.repeatCount > config.MAX_REPEAT.COUNT_MONTH) {
                 this.setState({
                     repeatCount: config.MAX_REPEAT.COUNT_MONTH
-                });
+                }, () => this.checkConflict());
+                tmp = true;
             }
             if (this.state.repeatOccurrences > config.MAX_REPEAT.OCCURRENCES_MONTH) {
                 this.setState({
                     repeatOccurrences: config.MAX_REPEAT.OCCURRENCES_MONTH
-                });
+                }, () => this.checkConflict());
+                tmp = true;
             }
+            if (tmp === false) {
+                this.checkConflict();
+            }
+        }
+        else {
+            this.checkConflict();
         }
     }
 
@@ -312,6 +328,7 @@ export default class ReservationStage2 extends React.Component {
         });
     }
 
+    // TODO handle update exist user
     handleOnChangeNRP(e) {
         const phonePattern = /^[\d]{10,18}$/;
         const input = e.target.value;
@@ -405,7 +422,6 @@ export default class ReservationStage2 extends React.Component {
             url: config.API_SERVER + 'users/nrp_nip/' + nrp,
             timeout: 10000
         }).then(function (response) {
-            console.log(response);
             if (response.data[0] === undefined) {
                 this.setState({
                     name: response.data.name,
@@ -430,34 +446,56 @@ export default class ReservationStage2 extends React.Component {
         }.bind(this));
     }
 
-    doReserveUser() {
-        this.setState({
-            isLoadingSubmit: true,
-            stage2: false
-        });
-        this.doReserveBooking(1).bind(this);
 
-        // if(this.state.isUserFound === true) {
-        //     this.doReserveBooking(this.state.userId).bind(this);
-        // }
-        // else {
-        //     const data = {
-        //         'name': this.state.name,
-        //         'email': this.state.email,
-        //         'hp': this.state.phone,
-        //         'nrp_nip': this.state.nrp,
-        //         'password': "",
-        //         'is_admin': false
-        //     };
-        //     axios({
-        //         method: 'post',
-        //         url: config.API_SERVER + 'users',
-        //         timeout: 10000,
-        //         data: data,
-        //     }).then(function (response) {
-        //         this.doReserveBooking(response.data.id).bind(this);
-        //     }.bind(this));
-        // }
+    /*
+        FUNGSI INI YANG PERLU DIPERBAIKI
+    */
+    doReserveUser() {
+        // this.setState({
+        //     isLoadingSubmit: true,
+        //     stage2: false
+        // });
+        // this.doReserveBooking(1).bind(this);
+
+        if (this.state.isUserFound === true) {
+            this.doReserveBooking(this.state.userId).bind(this);
+        }
+        else {
+            const data = {
+                'name': this.state.name,
+                'email': this.state.email,
+                'hp': this.state.phone,
+                'nrp_nip': this.state.nrp,
+                'password': "enter-umum",
+                'is_admin': false
+            };
+            /*
+                axios ini fungsi yang mirip kaya ajax, ini ceritanya mau
+                ngepost user, parameternya kaya e udah benar, tapi response
+                dari servernya masih 406, harusnya 201, nah ini yang perlu diutak-
+                atik. Enakan langsung sama backendnya ngerjainnya, mungkin ada yang miss.
+                Kalau fungsi ini udah bisa, nanti tak lanjutin yang bawahnya. Yang
+                penting ini jalan sisanya harusnya sama aja.
+                Fungsi ini dipnaggi saat klik reservasi yang modal (waktu konfirmasi).
+                Untuk debugnya buka console di inspect element.
+            */
+            /* Problem start here */
+            axios({
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                url: config.API_SERVER + 'users',
+                timeout: 10000,
+                data: data
+            }).then(function (response) {
+                console.log(response);
+                this.doReserveBooking(response.data.id).bind(this);
+            }.bind(this)).catch(function (error) {
+                console.log(error);
+            });
+            /* Problem end here */
+        }
     }
 
     doReserveBooking(user_id) {
@@ -479,22 +517,23 @@ export default class ReservationStage2 extends React.Component {
         // }.bind(this));
     }
 
+    // TODO belum fix
     doReserveSchedule(booking_id) {
         this.setState({
             isLoadingSubmit: false
         });
-        // var tmp = this.state.dateString.split(['***']);
-        // var tmp2 = tmp[0].split('/');
-        // var date = tmp2[2] + '-' + tmp2[1] + '-' + tmp2[0] + 'T' + tmp[1] + ':00';
+        // let tmp = this.props.selectedDate;
+        // let tmp2 = tmp[0].split('/');
+        // let date = tmp2[2] + '-' + tmp2[1] + '-' + tmp2[0] + 'T' + tmp[1] + ':00';
         //
         // let repeated = "0";
         // let repeated_every = "1";
         // let repeated_end_after = "1";
         //
-        // if (this.state.repeat.isChecked === true) {
-        //     repeated = this.state.repeat.type.toString();
-        //     repeated_every = this.state.repeat.count.toString();
-        //     repeated_end_after = this.state.repeat.occurrences.toString();
+        // if (this.state.repeat === true) {
+        //     repeated = this.state.repeatType.toString();
+        //     repeated_every = this.state.repeatCount.toString();
+        //     repeated_end_after = this.state.repeatOccurrences.toString();
         // }
         //
         // const data = {
@@ -512,8 +551,10 @@ export default class ReservationStage2 extends React.Component {
         //     data: data,
         // }).then(function (response) {
         //     console.log("RESPONSE dari server" + response);
-        //     // this.doReserveSchedule().bind(this);
-        // }.bind(this));
+        //     this.setState({
+        //         isLoadingSubmit: false
+        //     });
+        // });
     }
 
     handleOpenDialogSubmit() {
@@ -530,6 +571,9 @@ export default class ReservationStage2 extends React.Component {
 
     render() {
         const styles = {
+            rowStyle: {
+                margin: 0
+            },
             paperStyle: {
                 padding: 30,
                 marginLeft: 5,
@@ -615,7 +659,7 @@ export default class ReservationStage2 extends React.Component {
 
         const actions = [
             <FlatButton
-                label="Back"
+                label="Cancel"
                 secondary={true}
                 onTouchTap={this.handleCloseDialogSubmit}
             />,
@@ -646,7 +690,8 @@ export default class ReservationStage2 extends React.Component {
             categoryNameDetail = (
                 <tr>
                     <th>Category</th>
-                    <th>: {categoryName}</th>
+                    <th>:</th>
+                    <th>{categoryName}</th>
                 </tr>
             );
         }
@@ -656,7 +701,8 @@ export default class ReservationStage2 extends React.Component {
             descriptionDetail = (
                 <tr>
                     <th>Description</th>
-                    <th>: {this.state.description}</th>
+                    <th>:</th>
+                    <th>{this.state.description}</th>
                 </tr>
             )
         }
@@ -669,45 +715,54 @@ export default class ReservationStage2 extends React.Component {
                 </tr>
                 <tr>
                     <th>Date</th>
-                    <th>: {this.state.selectedDate}</th>
+                    <th>:</th>
+                    <th>{this.state.selectedDate}</th>
                 </tr>
                 <tr>
                     <th>Time</th>
-                    <th>: {this.state.selectedTime}</th>
+                    <th>:</th>
+                    <th>{this.state.selectedTime}</th>
                 </tr>
                 <tr>
                     <th>Duration</th>
-                    <th>: {this.state.duration} minutes</th>
+                    <th>:</th>
+                    <th>{this.state.duration} minutes</th>
                 </tr>
                 <tr>
                     <th>Repeat</th>
-                    <th>: {repeatDetail}</th>
+                    <th>:</th>
+                    <th>{repeatDetail}</th>
                 </tr>
                 <tr>
                     <th>Title</th>
-                    <th>: {this.state.title}</th>
+                    <th>:</th>
+                    <th>{this.state.title}</th>
                 </tr>
                 {categoryNameDetail}
                 {descriptionDetail}
-                <tr><br/></tr>
+                <tr height="15"></tr>
                 <tr>
                     <td colSpan="2">Contact Person</td>
                 </tr>
                 <tr>
                     <th>NRP</th>
-                    <th>: {this.state.nrp}</th>
+                    <th>:</th>
+                    <th>{this.state.nrp}</th>
                 </tr>
                 <tr>
                     <th>Name</th>
-                    <th>: {this.state.name}</th>
+                    <th>:</th>
+                    <th>{this.state.name}</th>
                 </tr>
                 <tr>
                     <th>Email</th>
-                    <th>: {this.state.email}</th>
+                    <th>:</th>
+                    <th>{this.state.email}</th>
                 </tr>
                 <tr>
                     <th>Phone</th>
-                    <th>: {this.state.phone}</th>
+                    <th>:</th>
+                    <th>{this.state.phone}</th>
                 </tr>
                 </tbody>
             </table>
@@ -732,7 +787,7 @@ export default class ReservationStage2 extends React.Component {
                     transitionAppearTimeout={1000}
                     transitionEnter={false}
                     transitionLeave={false}>
-                    <Row>
+                    <Row style={styles.rowStyle}>
                         <Col xs={12} smOffset={2} sm={8} mdOffset={3} md={6}>
                             <Paper style={styles.paperStyle} zDepth={1}>
                                 {/*Form Reservation Detail Start*/}
@@ -860,7 +915,7 @@ export default class ReservationStage2 extends React.Component {
                                             <RaisedButton
                                                 label="Submit"
                                                 primary={true}
-                                                disabled={false}
+                                                disabled={submitDisable}
                                                 onTouchTap={this.handleOpenDialogSubmit}
                                             />
                                         </Row>
@@ -871,7 +926,8 @@ export default class ReservationStage2 extends React.Component {
                                     actions={actions}
                                     modal={false}
                                     open={this.state.openDialogSubmit}
-                                    onRequestClose={this.handleCloseDialogSubmit}>
+                                    onRequestClose={this.handleCloseDialogSubmit}
+                                    autoScrollBodyContent={true}>
                                     {reservationDetail}
                                 </Dialog>
                                 {/*Submit and Cancel button end*/}

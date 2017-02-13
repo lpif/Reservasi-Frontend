@@ -1,7 +1,7 @@
-let config = {};
+var appConfig = {};
 
-config.API_SERVER   = 'http://reservasi.lp.if.its.ac.id/api/v1/';
-config.MAX_REPEAT = {
+appConfig.API_SERVER   = 'http://reservasi.lp.if.its.ac.id/api/v1/';
+appConfig.MAX_REPEAT = {
     COUNT_DAY : 90,
     COUNT_WEEK : 8,
     COUNT_MONTH: 2,
@@ -10,4 +10,4 @@ config.MAX_REPEAT = {
     OCCURRENCES_MONTH : 5
 };
 
-module.exports = config;
+module.exports = appConfig;

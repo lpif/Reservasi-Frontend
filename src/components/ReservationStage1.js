@@ -11,9 +11,9 @@ import ScheduleList from './ScheduleList';
 import ReservationStage2 from './ReservationStage2';
 import RaisedButton from 'material-ui/RaisedButton';
 import IconButton from 'material-ui/IconButton';
-import Book from 'material-ui/svg-icons/action/book';
 import Event from 'material-ui/svg-icons/action/event';
 import ManageDate from '../funtions/ManageDate';
+import LPLogo from '../assets/lp_white.png';
 
 export default class ReservationStage1 extends React.Component {
     constructor(props) {
@@ -73,20 +73,28 @@ export default class ReservationStage1 extends React.Component {
     }
 
     render() {
+        const styles = {
+            rowStyle: {
+                margin: 0
+            }
+        };
+
         const readableDate = ManageDate.getReadableDate(this.state.selectedDate);
         const readableTime = ManageDate.getReadableTime(this.state.selectedTime);
         const labelSubmit = "reserve on " + readableDate + " at " + readableTime;
 
         let reserveButton = "";
         if (this.state.isValidReserve === true) {
+            // TODO RaisedButton broken on small screen
             reserveButton = (
-                <Row>
-                    <Col xs={12}>
+                <Row style={styles.rowStyle}>
+                    <Col xs={10} xsOffset={1}>
                         <Row center="xs">
                             <RaisedButton
                                 label={labelSubmit}
                                 primary={true}
                                 onTouchTap={this.nextStage}
+                                style={styles.raisedButton}
                             />
                         </Row>
                     </Col>
@@ -108,7 +116,7 @@ export default class ReservationStage1 extends React.Component {
                         handleChangeTime={this.handleChangeTime}
                     />
                     <br/><br/>
-                    <Row>
+                    <Row style={styles.rowStyle}>
                         <Col xs={12} sm={10} smOffset={1} md={6} mdOffset={3} lg={6}>
                             <ScheduleList
                                 selectedDate={this.state.selectedDate}
@@ -139,8 +147,8 @@ export default class ReservationStage1 extends React.Component {
         return (
             <div>
                 <AppBar
-                    title="LP Reservation"
-                    iconElementLeft={<IconButton><Book/></IconButton>}
+                    title="Reservation"
+                    iconElementLeft={<img src={LPLogo} width={33} height={35}/>}
                     iconElementRight={<IconButton><Event/></IconButton>}
                 />
                 <br/><br/><br/>

@@ -25,6 +25,9 @@ export default class DateTimePicker extends React.Component {
 
     render() {
         const styles = {
+            rowStyle: {
+                margin: 0
+            },
             paperStyle: {
                 paddingTop: 26,
                 paddingRight: 26,
@@ -44,10 +47,10 @@ export default class DateTimePicker extends React.Component {
 
         let minDate = new Date();
         let maxDate = new Date();
-        maxDate.setDate(maxDate.getDate()+180);
+        maxDate.setDate(maxDate.getDate() + 180);
 
         return (
-            <Row>
+            <Row style={styles.rowStyle}>
                 <Col xs={12} sm={10} smOffset={1} md={6} mdOffset={3}>
                     <Paper style={styles.paperStyle} zDepth={1}>
                         <Row center="xs">

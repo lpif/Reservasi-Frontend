@@ -12,7 +12,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 import ActionGrade from 'material-ui/svg-icons/action/grade';
 import {cyan500, pink500} from 'material-ui/styles/colors';
 import ManageDate from '../funtions/ManageDate';
-import config from '../../config';
+import config from '../../appConfig';
 
 export default class ScheduleList extends React.Component {
     constructor(props) {
