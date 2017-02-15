@@ -148,9 +148,14 @@ export default class ReservationStage1 extends React.Component {
             <div>
                 <AppBar
                     title="Reservation"
-                    iconElementLeft={<img src={LPLogo} width={33} height={35}/>}
-                    iconElementRight={<IconButton><Event/></IconButton>}
+                    iconElementLeft={<img src={LPLogo} alt="LP" width={33} height={35}/>}
                 />
+                {/* TODO create calendar*/}
+                {/*<AppBar*/}
+                    {/*title="Reservation"*/}
+                    {/*iconElementLeft={<img src={LPLogo} alt="LP" width={33} height={35}/>}*/}
+                    {/*iconElementRight={<IconButton><Event/></IconButton>}*/}
+                {/*/>*/}
                 <br/><br/><br/>
                 {stage}
             </div>

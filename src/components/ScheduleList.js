@@ -150,7 +150,7 @@ export default class ScheduleList extends React.Component {
         };
 
         let loading = "";
-        let content = <div style={styles.scheduleNotFound}>No Schedule Found!</div>;
+        let content = <div style={styles.scheduleNotFound}>No Schedule Found !</div>;
 
         if (this.state.isLoading === true) {
             loading = (

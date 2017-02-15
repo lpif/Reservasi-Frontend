@@ -33,12 +33,31 @@ export default class ReservationStage3 extends React.Component {
             }
         };
 
+        let statusContent = "";
+        if (this.props.status === true) {
+            statusContent = (
+                <div>
+                    <h3>Thank you for your reservation request.</h3>
+                    <h3>We will proceed as soon as possible.</h3>
+                    <h4>P.S. Have a nice day</h4>
+                </div>
+            );
+        }
+        else {
+            statusContent = (
+                <div>
+                    <h3>Sorry we can't process your request.</h3>
+                    <h3>Contact administrator for more information</h3>
+                </div>
+            );
+        }
+
         let status = (
             <Row>
                 <Col xs={12}>
                     <Row center="xs">
                         <div>
-                            <h3>Thank you for your reservation request</h3>
+                            {statusContent}
                             <br/><br/>
                             <RaisedButton
                                 label="Back to Home"
