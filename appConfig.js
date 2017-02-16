@@ -1,6 +1,6 @@
 var appConfig = {};
 
-appConfig.API_SERVER   = 'http://reservasi.lp.if.its.ac.id/api/v1/';
+appConfig.API_SERVER   = 'http://api.lp.if.its.ac.id/api/v1/';
 appConfig.MAX_REPEAT = {
     COUNT_DAY : 90,
     COUNT_WEEK : 8,
