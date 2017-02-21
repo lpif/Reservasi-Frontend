@@ -7,7 +7,9 @@ import axios from 'axios';
 import {Row, Col} from 'react-flexbox-grid';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import Paper from 'material-ui/Paper';
+import Dialog from 'material-ui/Dialog';
 import {List, ListItem} from 'material-ui/List';
+import FlatButton from 'material-ui/FlatButton';
 import CircularProgress from 'material-ui/CircularProgress';
 import ActionGrade from 'material-ui/svg-icons/action/grade';
 import {cyan500, pink500} from 'material-ui/styles/colors';
@@ -19,8 +21,13 @@ export default class ScheduleList extends React.Component {
         super(props);
         this.state = {
             schedules: [],
-            isLoading: false
+            isLoading: false,
+            showDetail: false,
+            detail: ''
         };
+
+        this.showDetail = this.showDetail.bind(this);
+        this.closeDetail = this.closeDetail.bind(this);
     }
 
     componentDidMount() {
@@ -126,6 +133,21 @@ export default class ScheduleList extends React.Component {
         return selectedTime.getHours() * 60 + selectedTime.getMinutes();
     }
 
+    showDetail(id) {
+        console.log(id);
+        this.setState({
+            showDetail: true,
+            detail: this.state.schedules[id]
+        });
+    }
+
+    closeDetail() {
+        this.setState({
+            showDetail: false,
+            detail: ''
+        });
+    }
+
     render() {
         const styles = {
             paperStyle: {
@@ -146,6 +168,10 @@ export default class ScheduleList extends React.Component {
                 fontSize: 22,
                 fontWeight: "bold",
                 textAlign: "center"
+            },
+            dialogStyle: {
+                width: "98%",
+                maxWidth: "750px",
             }
         };
 
@@ -169,7 +195,7 @@ export default class ScheduleList extends React.Component {
             content = "";
         }
         else if (this.state.schedules.length > 0) {
-            content = this.state.schedules.map(function (schedule) {
+            content = this.state.schedules.map(function (schedule, index) {
                 const startTime = schedule.start.substring(11, 16);
                 const endTime = schedule.end.substring(11, 16);
                 let activeStatus = <div></div>;
@@ -182,24 +208,54 @@ export default class ScheduleList extends React.Component {
                         primaryText={schedule.booking.title}
                         secondaryText={startTime + " - " + endTime}
                         rightIcon={activeStatus}
+                        onTouchTap={() => this.showDetail(index)}
                     />
                 );
             }.bind(this));
         }
 
+        const actions = [
+            <FlatButton
+                label="Close"
+                secondary={true}
+                onTouchTap={this.closeDetail}
+            />
+        ];
+
+        let detailModel = "";
+        if (this.state.detail !== '') {
+            // TODO fix detail information
+            const detailText = this.state.detail.toString();
+            detailModel = (
+                <Dialog
+                    title={this.state.detail.booking.title}
+                    actions={actions}
+                    modal={false}
+                    open={this.state.showDetail}
+                    onRequestClose={this.closeDetail}
+                    autoScrollBodyContent={true}
+                    contentStyle={styles.dialogStyle}>
+                    {detailText}
+                </Dialog>
+            );
+        }
+
         return (
-            <Paper style={styles.paperStyle} zDepth={1}>
-                <h2 style={styles.headerStyle}>{ManageDate.getReadableDate(this.props.selectedDate)}</h2>
-                {loading}
-                <List>
-                    <ReactCSSTransitionGroup
-                        transitionName="list-animate"
-                        transitionEnterTimeout={500}
-                        transitionLeave={false}>
-                        {content}
-                    </ReactCSSTransitionGroup>
-                </List>
-            </Paper>
+            <div>
+                {detailModel}
+                <Paper style={styles.paperStyle} zDepth={1}>
+                    <h2 style={styles.headerStyle}>{ManageDate.getReadableDate(this.props.selectedDate)}</h2>
+                    {loading}
+                    <List>
+                        <ReactCSSTransitionGroup
+                            transitionName="list-animate"
+                            transitionEnterTimeout={500}
+                            transitionLeave={false}>
+                            {content}
+                        </ReactCSSTransitionGroup>
+                    </List>
+                </Paper>
+            </div>
         );
     }
 }

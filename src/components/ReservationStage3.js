@@ -12,6 +12,7 @@ import Home from 'material-ui/svg-icons/action/home';
 import {cyan500} from 'material-ui/styles/colors';
 
 export default class ReservationStage3 extends React.Component {
+    // eslint-disable-next-line
     constructor(props) {
         super(props);
     }

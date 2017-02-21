@@ -10,10 +10,13 @@ import DateTimePicker from './DateTimePicker';
 import ScheduleList from './ScheduleList';
 import ReservationStage2 from './ReservationStage2';
 import RaisedButton from 'material-ui/RaisedButton';
-import IconButton from 'material-ui/IconButton';
-import Event from 'material-ui/svg-icons/action/event';
+// import IconButton from 'material-ui/IconButton';
+// import Event from 'material-ui/svg-icons/action/event';
+import Love from 'material-ui/svg-icons/action/favorite';
+import {redA400} from 'material-ui/styles/colors';
 import ManageDate from '../funtions/ManageDate';
 import LPLogo from '../assets/lp_white.png';
+import Help from './Help';
 
 export default class ReservationStage1 extends React.Component {
     constructor(props) {
@@ -76,6 +79,9 @@ export default class ReservationStage1 extends React.Component {
         const styles = {
             rowStyle: {
                 margin: 0
+            },
+            love: {
+                margin: "0 7px 0 7px"
             }
         };
 
@@ -145,19 +151,23 @@ export default class ReservationStage1 extends React.Component {
         }
 
         return (
-            <div>
+            <div id="x-wrapper">
                 <AppBar
                     title="Reservation"
                     iconElementLeft={<img src={LPLogo} alt="LP" width={33} height={35}/>}
                 />
                 {/* TODO create calendar*/}
                 {/*<AppBar*/}
-                    {/*title="Reservation"*/}
-                    {/*iconElementLeft={<img src={LPLogo} alt="LP" width={33} height={35}/>}*/}
-                    {/*iconElementRight={<IconButton><Event/></IconButton>}*/}
+                {/*title="Reservation"*/}
+                {/*iconElementLeft={<img src={LPLogo} alt="LP" width={33} height={35}/>}*/}
+                {/*iconElementRight={<IconButton><Event/></IconButton>}*/}
                 {/*/>*/}
                 <br/><br/><br/>
                 {stage}
+                <div id="x-footer">
+                    &copy; 2017. <i>Made with <Love style={styles.love} color={redA400}/> by AdminLP</i>
+                </div>
+                <Help/>
             </div>
         );
     }

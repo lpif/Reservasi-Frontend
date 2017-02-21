@@ -597,6 +597,10 @@ export default class ReservationStage2 extends React.Component {
             },
             tableConfirmationStyle: {
                 textAlign: "left"
+            },
+            dialogStyle: {
+                width: "98%",
+                maxWidth: "750px",
             }
         };
 
@@ -627,7 +631,7 @@ export default class ReservationStage2 extends React.Component {
                                 style={styles.repeatType}
                                 onChange={this.handleOnChangeRepeatType}
                                 onBlur={this.handleOnChangeRepeatType}>
-                                <MenuItem value={1} primaryText="Daily"/>
+                                <MenuItem value={1} primaryText="Day"/>
                                 <MenuItem value={2} primaryText="Week"/>
                                 <MenuItem value={3} primaryText="Month"/>
                             </SelectField>
@@ -935,7 +939,8 @@ export default class ReservationStage2 extends React.Component {
                                     modal={false}
                                     open={this.state.openDialogSubmit}
                                     onRequestClose={this.handleCloseDialogSubmit}
-                                    autoScrollBodyContent={true}>
+                                    autoScrollBodyContent={true}
+                                    contentStyle={styles.dialogStyle}>
                                     {reservationDetail}
                                 </Dialog>
                             </Paper>
