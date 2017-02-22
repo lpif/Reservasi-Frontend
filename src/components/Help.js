@@ -48,7 +48,7 @@ export default class Help extends React.Component {
 
         const helpText = (
             <div>
-                Ini Help
+                Coming Soon :)
             </div>
         );
 
@@ -69,7 +69,7 @@ export default class Help extends React.Component {
                     hoverColor={cyan700}
                 />
                 <Dialog
-                    title="FAQ(?)"
+                    title="(?) FAQ"
                     actions={actions}
                     modal={false}
                     open={this.state.showHelp}

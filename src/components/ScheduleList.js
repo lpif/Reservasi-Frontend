@@ -134,7 +134,6 @@ export default class ScheduleList extends React.Component {
     }
 
     showDetail(id) {
-        console.log(id);
         this.setState({
             showDetail: true,
             detail: this.state.schedules[id]
@@ -172,7 +171,11 @@ export default class ScheduleList extends React.Component {
             dialogStyle: {
                 width: "98%",
                 maxWidth: "750px",
-            }
+            },
+            tableStyle: {
+                textAlign: "left",
+                marginTop: "20px"
+            },
         };
 
         let loading = "";
@@ -186,7 +189,7 @@ export default class ScheduleList extends React.Component {
                             <div>
                                 <CircularProgress size={90} thickness={5}/>
                                 <br/><br/>
-                                <div style={styles.loadingTextStyle}>Please Wait ...</div>
+                                <div style={styles.loadingTextStyle}>Please Wait...</div>
                             </div>
                         </Row>
                     </Col>
@@ -224,11 +227,41 @@ export default class ScheduleList extends React.Component {
 
         let detailModel = "";
         if (this.state.detail !== '') {
-            // TODO fix detail information
-            const detailText = this.state.detail.toString();
+            const startTime = this.state.detail.start.substring(11, 16);
+            const endTime = this.state.detail.end.substring(11, 16);
+            const title = (
+                this.state.detail.booking.title + " | " + startTime + " - " + endTime
+            );
+
+            let description = "-";
+            if (this.state.detail.booking.description.length !== 0) {
+                description = this.state.detail.booking.description;
+            }
+
+            const detailText = (
+                <table style={styles.tableStyle}>
+                    <tbody>
+                    <tr>
+                        <th>Category</th>
+                        <th>:</th>
+                        <th>{this.state.detail.booking.type.name}</th>
+                    </tr>
+                    <tr>
+                        <th>Description</th>
+                        <th>:</th>
+                        <th>{description}</th>
+                    </tr>
+                    <tr>
+                        <th>Reserved by</th>
+                        <th>:</th>
+                        <th>{this.state.detail.booking.user.name}</th>
+                    </tr>
+                    </tbody>
+                </table>
+            );
             detailModel = (
                 <Dialog
-                    title={this.state.detail.booking.title}
+                    title={title}
                     actions={actions}
                     modal={false}
                     open={this.state.showDetail}
