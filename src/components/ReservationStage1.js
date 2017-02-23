@@ -10,8 +10,9 @@ import DateTimePicker from './DateTimePicker';
 import ScheduleList from './ScheduleList';
 import ReservationStage2 from './ReservationStage2';
 import RaisedButton from 'material-ui/RaisedButton';
-// import IconButton from 'material-ui/IconButton';
-// import Event from 'material-ui/svg-icons/action/event';
+import Calendar from './calender/Calendar';
+import IconButton from 'material-ui/IconButton';
+import Event from 'material-ui/svg-icons/action/event';
 import Love from 'material-ui/svg-icons/action/favorite';
 import {redA400} from 'material-ui/styles/colors';
 import ManageDate from '../funtions/ManageDate';
@@ -26,7 +27,8 @@ export default class ReservationStage1 extends React.Component {
             selectedTime: new Date(),
             maxDuration: null,
             isValidReserve: false,
-            stage1: true
+            stage1: true,
+            showCalendar: false
         };
 
         this.handleChangeDate = this.handleChangeDate.bind(this);
@@ -35,6 +37,8 @@ export default class ReservationStage1 extends React.Component {
         this.updateMaxDuration = this.updateMaxDuration.bind(this);
         this.nextStage = this.nextStage.bind(this);
         this.prevStage = this.prevStage.bind(this);
+        this.showHome = this.showHome.bind(this);
+        this.showCalendar = this.showCalendar.bind(this);
     }
 
     handleChangeDate(date) {
@@ -75,6 +79,19 @@ export default class ReservationStage1 extends React.Component {
         });
     }
 
+    showCalendar() {
+        this.setState({
+            showCalendar: true
+        });
+    }
+
+    showHome() {
+        this.setState({
+            showCalendar: false,
+            stage1: true
+        });
+    }
+
     render() {
         const styles = {
             rowStyle: {
@@ -108,8 +125,13 @@ export default class ReservationStage1 extends React.Component {
             );
         }
 
-        let stage = <div></div>;
-        if (this.state.stage1 === true) {
+        let stage = "";
+        let help = <Help/>;
+        if(this.state.showCalendar === true) {
+            stage = <Calendar/>;
+            help = "";
+        }
+        else if (this.state.stage1 === true) {
             stage = (
                 <ReactCSSTransitionGroup
                     transitionName="container-animate"
@@ -153,21 +175,18 @@ export default class ReservationStage1 extends React.Component {
         return (
             <div id="x-wrapper">
                 <AppBar
-                    title="Reservation"
-                    iconElementLeft={<img src={LPLogo} alt="LP" width={33} height={35}/>}
+                    title="Reservatioan"
+                    iconElementLeft={<img style={{cursor: "pointer"}} src={LPLogo} alt="LP" width={33} height={35}/>}
+                    onLeftIconButtonTouchTap={this.showHome}
+                    iconElementRight={<IconButton><Event/></IconButton>}
+                    onRightIconButtonTouchTap={this.showCalendar}
                 />
-                {/* TODO create calendar*/}
-                {/*<AppBar*/}
-                {/*title="Reservation"*/}
-                {/*iconElementLeft={<img src={LPLogo} alt="LP" width={33} height={35}/>}*/}
-                {/*iconElementRight={<IconButton><Event/></IconButton>}*/}
-                {/*/>*/}
                 <br/><br/><br/>
                 {stage}
                 <div id="x-footer">
                     &copy; 2017. <i>Made with <Love style={styles.love} color={redA400}/> by AdminLP</i>
                 </div>
-                <Help/>
+                {help}
             </div>
         );
     }

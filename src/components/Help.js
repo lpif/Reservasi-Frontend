@@ -61,7 +61,7 @@ export default class Help extends React.Component {
         ];
 
         return (
-            <div>`
+            <div>
                 <HelpIcon
                     onTouchTap={this.showHelp}
                     style={styles.helpIcon}
