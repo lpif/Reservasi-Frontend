@@ -37,7 +37,7 @@ export default class Help extends React.Component {
                 height: "40px",
                 width: "40px",
                 bottom: 18,
-                right: 18,
+                right: 7,
                 cursor: "pointer"
             },
             dialogStyle: {

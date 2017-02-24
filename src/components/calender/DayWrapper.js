@@ -7,6 +7,7 @@ import DayHeaderName from './DayHeaderName';
 import Day from './Day';
 
 export default class DayWrapper extends React.Component {
+    // eslint-disable-next-line
     constructor(props) {
         super(props);
     }

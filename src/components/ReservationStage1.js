@@ -97,6 +97,16 @@ export default class ReservationStage1 extends React.Component {
             rowStyle: {
                 margin: 0
             },
+            reserveButtonStyle: {
+                marginBottom: "20px"
+            },
+            stageStyle: {
+                paddingBottom: "50px"
+            },
+            availableStyle: {
+                color: "#76FF03",
+                textAlign: "center"
+            },
             love: {
                 margin: "0 7px 0 7px"
             }
@@ -104,17 +114,16 @@ export default class ReservationStage1 extends React.Component {
 
         const readableDate = ManageDate.getReadableDate(this.state.selectedDate);
         const readableTime = ManageDate.getReadableTime(this.state.selectedTime);
-        const labelSubmit = "reserve on " + readableDate + " at " + readableTime;
 
         let reserveButton = "";
         if (this.state.isValidReserve === true) {
-            // TODO RaisedButton broken on small screen
             reserveButton = (
-                <Row style={styles.rowStyle}>
+                <Row style={Object.assign({}, styles.rowStyle, styles.reserveButtonStyle)}>
                     <Col xs={10} xsOffset={1}>
+                        <h3 style={styles.availableStyle}>LP available on {readableDate} at {readableTime}</h3>
                         <Row center="xs">
                             <RaisedButton
-                                label={labelSubmit}
+                                label="reserve now"
                                 primary={true}
                                 onTouchTap={this.nextStage}
                                 style={styles.raisedButton}
@@ -127,7 +136,7 @@ export default class ReservationStage1 extends React.Component {
 
         let stage = "";
         let help = <Help/>;
-        if(this.state.showCalendar === true) {
+        if (this.state.showCalendar === true) {
             stage = <Calendar/>;
             help = "";
         }
@@ -154,7 +163,7 @@ export default class ReservationStage1 extends React.Component {
                             />
                         </Col>
                     </Row>
-                    <br/><br/>
+                    <br/>
                     {reserveButton}
                 </ReactCSSTransitionGroup>
             )
@@ -182,7 +191,9 @@ export default class ReservationStage1 extends React.Component {
                     onRightIconButtonTouchTap={this.showCalendar}
                 />
                 <br/><br/><br/>
-                {stage}
+                <div style={styles.stageStyle}>
+                    {stage}
+                </div>
                 <div id="x-footer">
                     &copy; 2017. <i>Made with <Love style={styles.love} color={redA400}/> by AdminLP</i>
                 </div>
