@@ -184,7 +184,7 @@ export default class ReservationStage1 extends React.Component {
         return (
             <div id="x-wrapper">
                 <AppBar
-                    title="Reservatioan"
+                    title="Reservation"
                     iconElementLeft={<img style={{cursor: "pointer"}} src={LPLogo} alt="LP" width={33} height={35}/>}
                     onLeftIconButtonTouchTap={this.showHome}
                     iconElementRight={<IconButton><Event/></IconButton>}
