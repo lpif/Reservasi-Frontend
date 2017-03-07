@@ -67,7 +67,7 @@ export default class Help extends React.Component {
                 <b>When do I know if it's already been accepted?</b><br/>
                 -Check this web continuously. It will appear in the schedule. :)<br/>
                 <br/>
-                <b>How to know the schedule in mounth?</b><br/>
+                <b>How to know the schedule in month?</b><br/>
                 -Click at the calendar icon in the top right corner. :)<br/>
             </div>
         );
