@@ -48,7 +48,27 @@ export default class Help extends React.Component {
 
         const helpText = (
             <div>
-                Coming Soon :)
+                <br/>
+                <b>How to reserve?</b><br/>
+                1. Pick a date and a time your activity starts. Make sure the time is between 7.00-22.00<br/>
+                2. It will appear the reserve button if it is available.<br/>
+                3. Fill your detail reservation into the form.<br/>
+                4. Wait until your reservation is accepted :)<br/>
+                <br/>
+                <b>When should I reserve?</b><br/>
+                -At least D-1, except for the lecturer can order via admin. :)<br/>
+                <br/>
+                <b>How to cancel the reservation?</b><br/>
+                -Call the LP administrator :)<br/>
+                <br/>
+                <b>How to edit the reservation?</b><br/>
+                -Call the LP administrator :)<br/>
+                <br/>
+                <b>When do I know if it's already been accepted?</b><br/>
+                -Check this web continuously. It will appear in the schedule. :)<br/>
+                <br/>
+                <b>How to know the schedule in mounth?</b><br/>
+                -Click at the calendar icon in the top right corner. :)<br/>
             </div>
         );
 
