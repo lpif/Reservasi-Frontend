@@ -8,6 +8,8 @@ import Chip from 'material-ui/Chip';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import CircularProgress from 'material-ui/CircularProgress';
+import ActionGrade from 'material-ui/svg-icons/action/grade';
+import {cyan500} from 'material-ui/styles/colors';
 import axios from 'axios';
 import ManageDate from '../../funtions/ManageDate';
 import config from '../../../appConfig';
@@ -89,6 +91,9 @@ export default class Day extends React.Component {
             },
             nanStyle: {
                 backgroundColor: "#FAFAFA"
+            },
+            today: {
+                backgroundColor: "#B3E5FC"
             },
             weekEnd: {
                 color: "#D50000"
@@ -200,12 +205,24 @@ export default class Day extends React.Component {
             heightPaper = styles.sixWeeks;
         }
 
+        const today = new Date();
+        const date = today.getDate();
+        const month = today.getMonth();
+        const year = today.getFullYear();
+        let todayStatus = "";
+        if(date === this.props.date && month+1 === this.props.month && year === this.props.year) {
+            todayStatus = <ActionGrade color={cyan500}/>;
+        }
+
         let dayText = " ";
         if (this.props.date > 0) {
             if (this.props.day === 0 || this.props.day === 6) {
                 dayText = (
                     <Paper style={Object.assign({}, styles.paperStyle, heightPaper)} zDepth={1}>
-                        <div style={styles.weekEnd}>{this.props.date}</div>
+                        <div style={styles.weekEnd}>
+                            <span>{this.props.date}</span>
+                            <span style={{float: "right"}}>{todayStatus}</span>
+                        </div>
                         {contentWrapper}
                     </Paper>
                 );
@@ -213,7 +230,10 @@ export default class Day extends React.Component {
             else {
                 dayText = (
                     <Paper style={Object.assign({}, styles.paperStyle, heightPaper)} zDepth={1}>
-                        <div>{this.props.date}</div>
+                        <div>
+                            <span>{this.props.date}</span>
+                            <span style={{float: "right"}}>{todayStatus}</span>
+                        </div>
                         {contentWrapper}
                     </Paper>
                 );
