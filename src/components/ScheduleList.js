@@ -118,7 +118,7 @@ export default class ScheduleList extends React.Component {
         const startTimeVal = this.convertTimeToMinutesFromSchedule(schedule.start);
         const endTimeVal = this.convertTimeToMinutesFromSchedule(schedule.end);
         const selectedTimeVal = this.convertTimeToMinutesFromDateObject(selectedNextTime);
-        return (startTimeVal < selectedTimeVal && selectedTimeVal < endTimeVal);
+        return (startTimeVal <= selectedTimeVal && selectedTimeVal <= endTimeVal);
     }
 
     convertTimeToMinutesFromSchedule(scheduleTime) {
