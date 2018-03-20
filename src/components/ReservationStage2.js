@@ -271,10 +271,15 @@ export default class ReservationStage2 extends React.Component {
             duration = 1;
         }
 
+        let repeatedSend = this.state.repeatType;
+        if (this.state.repeat === false) {
+            repeatedSend = 0;
+        }
+
         const data = {
             'start': startTime,
             'duration': (duration * 60).toString(),
-            'repeated': this.state.repeatType.toString(),
+            'repeated': repeatedSend.toString(),
             'repeated_every': this.state.repeatCount.toString(),
             'repeated_end_after': this.state.repeatOccurrences.toString()
         };
